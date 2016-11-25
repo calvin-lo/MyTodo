@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Final Project</string>
     <string name="visual">Visual</string>
-    <string name="taskInstruction">Enter your task here...</string>
+    <string name="taskInstruction">Add a new task</string>
     <string name="task">Tasks</string>
     <string name="title_activity_maps">Map</string>
+    <string name="fragOne">List</string>
+    <string name="fragTwo">Map</string>
 </resources>
