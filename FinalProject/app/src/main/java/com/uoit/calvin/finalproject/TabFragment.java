@@ -86,7 +86,7 @@ public class TabFragment extends Fragment {
                 case 0 :
                     return "Tasks";
                 case 1 :
-                    return "Second";
+                    return "Map";
             }
                 return null;
         }
