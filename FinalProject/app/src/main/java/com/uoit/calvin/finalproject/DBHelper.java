@@ -12,21 +12,21 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "mainDB";
-    private static final String TABLE_TRANSACTIONS = "transactions";
+    private static final String DATABASE_NAME = "tasksDB";
+    private static final String TABLE_TASKS = "task";
 
     private static  final String KEY_ID = "id";
-    private static final String KEY_TAG = "tag";
+    private static final String KEY_TITLE= "title";
+    private static final String KEY_TIMESTAMPS = "timestamps";
 
-    private static final String TEXT_TYPE = " TEXT";
-    private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TABLE_TRANSACTIONS + " (" +
+            "CREATE TABLE " + TABLE_TASKS + " (" +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    KEY_TAG + TEXT_TYPE+ " )";
+                    KEY_TITLE + " TEXT," +
+                    KEY_TIMESTAMPS+ " TEXT" + " )";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + TABLE_TRANSACTIONS;
+            "DROP TABLE IF EXISTS " + TABLE_TASKS;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -47,25 +47,25 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        //values.put(KEY_ID,task.getId());
-        values.put(KEY_TAG, task.getTitle());
+        values.put(KEY_TITLE, task.getTitle());
+        values.put(KEY_TIMESTAMPS, task.getTimestamp());
 
         // Inserting Row
-        db.insert(TABLE_TRANSACTIONS, null, values);
+        db.insert(TABLE_TASKS, null, values);
         db.close();
         return true;
     }
 
     public void deleteTransactions(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_TRANSACTIONS, KEY_ID + " = " + id, null);
+        db.delete(TABLE_TASKS, KEY_ID + " = " + id, null);
         db.close();
     }
 
     // Getting All Data
     public List<Task> getAllData() {
         List<Task> taskList = new ArrayList<Task>();
-        String selectQuery = "SELECT  * FROM " + TABLE_TRANSACTIONS;
+        String selectQuery = "SELECT  * FROM " + TABLE_TASKS;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -74,11 +74,13 @@ public class DBHelper extends SQLiteOpenHelper {
         while(!cursor.isAfterLast()){
             Task task = new Task();
             task.setId(cursor.getLong(cursor.getColumnIndex(KEY_ID)));
-            task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TAG)));
+            task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+            task.setTimestamp(cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMPS)));
             taskList.add(task);
             cursor.moveToNext();
         }
 
+        cursor.close();
         return taskList;
     }
 

@@ -3,6 +3,7 @@ package com.uoit.calvin.finalproject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -60,9 +61,8 @@ public class PrimaryFragment extends Fragment {
         mydb = new DBHelper(getContext());
         if(requestCode == SAVING_DATA && resultCode == getActivity().RESULT_OK) {
             task.setTitle(data.getExtras().getString("result"));
+            task.setTimestamp(new Helper().getCurrentTime());
             mydb.addTransactions(task);
-            Toast toast = Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT);
-            toast.show();
         }
         mydb.close();
 
@@ -135,33 +135,33 @@ public class PrimaryFragment extends Fragment {
     /*
         custom adapter
      */
-
     private class CustomAdapter extends ArrayAdapter<Task> {
 
         private ArrayList<Task> taskList;
 
-        public CustomAdapter(Context context, int textViewResourceId, List<Task> taskList) {
+        CustomAdapter(Context context, int textViewResourceId, List<Task> taskList) {
             super(context, textViewResourceId, taskList);
             this.taskList = new ArrayList<Task>();
             this.taskList.addAll(taskList);
         }
 
         private class ViewHolder {
-            TextView code;
+            TextView time;
             CheckBox name;
         }
 
         @Override
+        @NonNull
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder = null;
+            ViewHolder holder;
 
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.task_info, null);
 
                 holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.time = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
 
@@ -178,8 +178,8 @@ public class PrimaryFragment extends Fragment {
             }
 
             Task task = taskList.get(position);
-            holder.code.setText(task.getTitle());
-            holder.name.setText("");
+            holder.time.setText("\t(" + task.getTimestamp() + " )");
+            holder.name.setText(task.getTitle());
             holder.name.setChecked(task.isSelected());
             holder.name.setTag(task);
 
