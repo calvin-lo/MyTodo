@@ -6,7 +6,8 @@ public class Task {
     private String title;
     private boolean selected = false;
     private String timestamp;
-
+    private double latitude;
+    private double longitude;
     public void setId(long id) {
         this.id = id;
     }
@@ -45,4 +46,19 @@ public class Task {
     }
 
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 }

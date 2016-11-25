@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,15 +17,6 @@
             android:id="@+id/toolbar"
             app:title="@string/app_name"/>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/black"
-            app:tabGravity="fill"
-            app:tabMode="fixed"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.DrawerLayout
@@ -37,17 +27,27 @@
         android:id="@+id/drawerLayout"
         >
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
         <FrameLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/containerView"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/taskList"
+            android:layout_marginTop="55dp" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/taskListID"
+            android:visibility="gone"
+            android:layout_marginTop="55dp" />
+
 
         <ListView android:id="@+id/left_drawer"
             android:layout_width="200dp"
@@ -60,4 +60,19 @@
 
     </android.support.v4.widget.DrawerLayout>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@android:color/background_light"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        app:fabSize="mini" />
+
+</RelativeLayout>

@@ -18,12 +18,16 @@ public class DBHelper extends SQLiteOpenHelper {
     private static  final String KEY_ID = "id";
     private static final String KEY_TITLE= "title";
     private static final String KEY_TIMESTAMPS = "timestamps";
+    private static final String KEY_LATITUDE = "latitude";
+    private static final String KEY_LONGITUDE = "longitude";
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_TASKS + " (" +
                     KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     KEY_TITLE + " TEXT," +
-                    KEY_TIMESTAMPS+ " TEXT" + " )";
+                    KEY_TIMESTAMPS+ " TEXT," +
+                    KEY_LATITUDE + " REAL," +
+                    KEY_LONGITUDE + " REAL" + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_TASKS;
@@ -49,6 +53,8 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, task.getTitle());
         values.put(KEY_TIMESTAMPS, task.getTimestamp());
+        values.put(KEY_LATITUDE, task.getLatitude());
+        values.put(KEY_LONGITUDE, task.getLongitude());
 
         // Inserting Row
         db.insert(TABLE_TASKS, null, values);
@@ -76,6 +82,8 @@ public class DBHelper extends SQLiteOpenHelper {
             task.setId(cursor.getLong(cursor.getColumnIndex(KEY_ID)));
             task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
             task.setTimestamp(cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMPS)));
+            task.setLatitude(cursor.getDouble(cursor.getColumnIndex(KEY_LATITUDE)));
+            task.setLongitude(cursor.getDouble(cursor.getColumnIndex(KEY_LONGITUDE)));
             taskList.add(task);
             cursor.moveToNext();
         }
