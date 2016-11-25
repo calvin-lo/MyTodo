@@ -1,5 +1,6 @@
 package com.uoit.calvin.finalproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ public class PrimaryFragment extends Fragment {
     static final int SAVING_DATA = 1;
     List<String> tags;
     List<Long> tagIds;
+    CustomAdapter dataAdapter = null;
 
 
     @Override
@@ -76,10 +81,11 @@ public class PrimaryFragment extends Fragment {
         for (Task t : task) {
             tagIds.add(t.getId());
         }
+
         // Set the task
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.activity_listview, task);
+        dataAdapter = new CustomAdapter(getContext(), R.layout.activity_listview, task);
         transList = (ListView) x.findViewById(R.id.taskList);
-        transList.setAdapter(arrayAdapter);
+        transList.setAdapter(dataAdapter);
         registerForContextMenu(transList);
 
         // Set the ID
@@ -119,6 +125,69 @@ public class PrimaryFragment extends Fragment {
 
         return true;
     }
+
+
+
+
+
+
+
+    /*
+        custom adapter
+     */
+
+    private class CustomAdapter extends ArrayAdapter<Task> {
+
+        private ArrayList<Task> taskList;
+
+        public CustomAdapter(Context context, int textViewResourceId, List<Task> taskList) {
+            super(context, textViewResourceId, taskList);
+            this.taskList = new ArrayList<Task>();
+            this.taskList.addAll(taskList);
+        }
+
+        private class ViewHolder {
+            TextView code;
+            CheckBox name;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder = null;
+
+            if (convertView == null) {
+                LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = vi.inflate(R.layout.task_info, null);
+
+                holder = new ViewHolder();
+                holder.code = (TextView) convertView.findViewById(R.id.code);
+                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                convertView.setTag(holder);
+
+                holder.name.setOnClickListener( new View.OnClickListener() {
+                    public void onClick(View v) {
+                        CheckBox cb = (CheckBox) v ;
+                        Task task = (Task) cb.getTag();
+                        task.setSelected(cb.isChecked());
+                    }
+                });
+            }
+            else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            Task task = taskList.get(position);
+            holder.code.setText(task.getTitle());
+            holder.name.setText("");
+            holder.name.setChecked(task.isSelected());
+            holder.name.setTag(task);
+
+            return convertView;
+
+        }
+    }
+
 
 
 }

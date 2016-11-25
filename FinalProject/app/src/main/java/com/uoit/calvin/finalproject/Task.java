@@ -4,6 +4,7 @@ public class Task {
 
     private long id;
     private String title;
+    private boolean selected = false;
 
     public void setId(long id) {
 
@@ -27,6 +28,13 @@ public class Task {
         return title;
     }
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected() {
+        return this.selected;
+    }
 
 
 }
