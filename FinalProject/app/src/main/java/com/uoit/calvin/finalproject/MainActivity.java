@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
         ListView mDrawerList;
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mPlanetTitles = new String[1];
-        mPlanetTitles[0] = "Test";
+        mPlanetTitles[0] = "Complete";
+
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         if (mDrawerList != null) {
@@ -264,8 +265,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
                 convertView = vi.inflate(R.layout.task_info, null);
 
                 holder = new ViewHolder();
-                holder.time = (TextView) convertView.findViewById(R.id.time);
-                holder.location = (TextView) convertView.findViewById(R.id.location);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
 
@@ -282,8 +281,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
             }
 
             Task task = taskList.get(position);
-            holder.time.setText("\t(" + task.getTimestamp() + " )");
-            holder.location.setText("\t" + getAddress(task.getLatitude(),task.getLongitude()) + ")");
             holder.name.setText(task.getTitle());
             holder.name.setChecked(task.isSelected());
             holder.name.setTag(task);

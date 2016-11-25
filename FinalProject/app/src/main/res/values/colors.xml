@@ -5,5 +5,7 @@
     <color name="white">#FFF</color>>
     <color name="DarkGray">#303030</color>
     <color name="LightGray">#444444</color>
+    <color name="notificationBar">#74c1b6</color>
+    <color name="titleBar">#a5fff1</color>
 
 </resources>
