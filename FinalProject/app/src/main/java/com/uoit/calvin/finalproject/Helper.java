@@ -1,5 +1,6 @@
 package com.uoit.calvin.finalproject;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
@@ -18,6 +19,24 @@ class Helper {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
+    public String getAddress(Context context, double latitude, double longitude) {
+        Geocoder geocoder;
+        List<Address> address = new ArrayList<>();
+
+        geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            address = geocoder.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String address1 = address.get(0).getAddressLine(0);
+        String address2 = address.get(0).getAddressLine(1);
+
+        return (address1 + " " + address2);
+    }
+
 
 
 }

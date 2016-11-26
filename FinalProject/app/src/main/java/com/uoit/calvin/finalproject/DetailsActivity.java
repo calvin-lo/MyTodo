@@ -1,78 +1,45 @@
 package com.uoit.calvin.finalproject;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    ViewPagerAdapter adapter;
+    long ID;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        setupTabLayout();
-    }
+        ID =  Long.parseLong(getIntent().getStringExtra("ID"));
+        dbHelper = new DBHelper(this);
+        Task task = dbHelper.getSingelData(ID);
 
+        TextView nameView = (TextView) findViewById(R.id.textViewName);
+        TextView addressView = (TextView) findViewById(R.id.textViewAddress);
 
-    /*
-        Tab Layout
-    */
-    private void setupViewPager(ViewPager viewPager) {
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new PrimaryFragment(), getResources().getString(R.string.fragOne));
-        adapter.addFragment(new SecondFragment(), getResources().getString((R.string.fragTwo)));
-        viewPager.setAdapter(adapter);
-    }
+        nameView.setText(task.getTitle());
 
-    public void setupTabLayout() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+       // addressView.setText(task.getLatitude() + " ; " + task.getLongitude());
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        if (tabLayout != null) {
-            tabLayout.setupWithViewPager(viewPager);
-            //tabLayout.getTabAt(0).setIcon(R.drawable.ic_dns_white_24dp);
-            //tabLayout.getTabAt(1).setIcon(R.drawable.ic_donut_small_black_24dp);
+        if (task.getLatitude() != 0.0 && task.getLongitude() != 0.0) {
 
-            tabLayout.setOnTabSelectedListener(
-                    new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
-                        @Override
-                        public void onTabSelected(TabLayout.Tab tab) {
-                            super.onTabSelected(tab);
-                            switch (tab.getPosition()) {
-                                case 0:
-                                    //tab.setIcon(R.drawable.ic_dns_white_24dp);
-                                    break;
-                                case 1:
-                                    //tab.setIcon(R.drawable.ic_donut_small_white_24dp);
-                                    break;
-                            }
-                        }
-
-                        @Override
-                        public void onTabUnselected(TabLayout.Tab tab) {
-                            super.onTabUnselected(tab);
-                            switch (tab.getPosition()) {
-                                case 0:
-                                    //tab.setIcon(R.drawable.ic_dns_black_24dp);
-                                    break;
-                                case 1:
-                                    //tab.setIcon(R.drawable.ic_donut_small_black_24dp);
-                                    break;
-                            }
-                        }
-
-                        @Override
-                        public void onTabReselected(TabLayout.Tab tab) {
-                            super.onTabReselected(tab);
-                        }
-                    }
-            );
+            addressView.setText(new Helper().getAddress(this, task.getLatitude(), task.getLongitude()));
         }
 
     }
+
+
 }

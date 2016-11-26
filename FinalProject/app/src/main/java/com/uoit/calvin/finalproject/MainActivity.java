@@ -1,5 +1,7 @@
 package com.uoit.calvin.finalproject;
 
+import android.*;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,121 +37,96 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity  implements LocationListener {
-    DBHelper dbHelper;
+public class MainActivity extends AppCompatActivity  {
     DrawerLayout mDrawerLayout;
-    CustomAdapter dataAdapter = null;
 
-    List<String> taskList;
-    List<Long> taskIds;
-    ListView tasksListView;
-    ListView idListView;
-
-    protected LocationManager locationManager;
-    Location location;
-    private static final int SAVING_DATA = 1;
+    ViewPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        deleteDatabase("tasksDB");
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
 
-
-        FloatingActionButton btnFab = (FloatingActionButton) findViewById(R.id.fab1);
-        btnFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddActivity.class);
-                startActivityForResult(intent,SAVING_DATA);
-            }
-        });
-
-
-
-        //setupTabLayout();
+        setupTabLayout();
         updateDrawer();
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Task task = new Task();
-        dbHelper = new DBHelper(this);
-        if(requestCode == SAVING_DATA && resultCode == RESULT_OK) {
-            updateLocation();
-            task.setTitle(data.getExtras().getString("result"));
-            task.setTimestamp(new Helper().getCurrentTime());
-            if (location != null) {
-                task.setLatitude(location.getLatitude());
-                task.setLongitude(location.getLongitude());
-            }
-            dbHelper.addTransactions(task);
-        }
-        dbHelper.close();
-
-        displayTaskList();
-    }
-
-    public void displayTaskList() {
-        dbHelper = new DBHelper(this);
-
-        List<Task> task = dbHelper.getAllData();
-        taskList = new ArrayList<>();
-        taskIds = new ArrayList<>();
-        for (Task t : task) {
-            taskList.add(t.getTitle());
-        }
-        for (Task t : task) {
-            taskIds.add(t.getId());
-        }
-
-        // Set the task
-        dataAdapter = new CustomAdapter(this, R.layout.activity_listview, task);
-        tasksListView = (ListView) findViewById(R.id.taskList);
-        tasksListView.setAdapter(dataAdapter);
-        registerForContextMenu(tasksListView);
-
-        // Set the ID
-        ArrayAdapter arrayAdapterID = new ArrayAdapter<>(this, R.layout.activity_listview, taskIds);
-        idListView= (ListView) findViewById(R.id.taskListID);
-        idListView.setAdapter(arrayAdapterID);
-        registerForContextMenu(idListView);
-
-        dbHelper.close();
+    protected void onRestart() {
+        super.onRestart();
+        updateDrawer();
+        setupTabLayout();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (v.getId() == R.id.taskList) {
-            String[] menuItems = getResources().getStringArray(R.array.update_menu);
-            for (int i = 0; i<menuItems.length; i++) {
-                menu.add(Menu.NONE, i, i, menuItems[i]);
-            }
-        }
+    public void onBackPressed() {
+        super.onBackPressed();
+        updateDrawer();
+        setupTabLayout();
+        adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    /*
+    Tab Layout
+    */
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new PrimaryFragment(), getResources().getString(R.string.fragOne));
+        adapter.addFragment(new SecondFragment(), getResources().getString((R.string.fragTwo)));
+        viewPager.setAdapter(adapter);
+    }
 
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        int menuItemIndex = item.getItemId();
-        String[] menuItems = getResources().getStringArray(R.array.update_menu);
-        String menuItemName = menuItems[menuItemIndex];
-        if (menuItemName.equals("Delete")) {
-            ListView l = (ListView)findViewById(R.id.taskListID);
-            String ID = l.getItemAtPosition(info.position).toString();
-            dbHelper = new DBHelper(this);
-            dbHelper.deleteTransactions((Long.parseLong(ID)));
-            displayTaskList();
-        } else if (menuItemName.equals("Edit")) {
-            Intent intent = new Intent(this, DetailsActivity.class);
-            startActivity(intent);
+    public void setupTabLayout() {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        if (tabLayout != null) {
+            tabLayout.setupWithViewPager(viewPager);
+            //tabLayout.getTabAt(0).setIcon(R.drawable.ic_dns_white_24dp);
+            //tabLayout.getTabAt(1).setIcon(R.drawable.ic_donut_small_black_24dp);
+
+            tabLayout.setOnTabSelectedListener(
+                    new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                            super.onTabSelected(tab);
+                            switch (tab.getPosition()) {
+                                case 0:
+                                    //tab.setIcon(R.drawable.ic_dns_white_24dp);
+                                    break;
+                                case 1:
+                                    //tab.setIcon(R.drawable.ic_donut_small_white_24dp);
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+                            super.onTabUnselected(tab);
+                            switch (tab.getPosition()) {
+                                case 0:
+                                    //tab.setIcon(R.drawable.ic_dns_black_24dp);
+                                    break;
+                                case 1:
+                                    //tab.setIcon(R.drawable.ic_donut_small_black_24dp);
+                                    break;
+                            }
+                        }
+
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+                            super.onTabReselected(tab);
+                        }
+                    }
+            );
         }
 
-        return true;
     }
 
 
@@ -179,116 +156,6 @@ public class MainActivity extends AppCompatActivity  implements LocationListener
     }
 
 
-    /*
-        Location
-     */
-
-    public void updateLocation() {
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (checkLocationPermission()) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        }
-    }
-
-    public String getAddress(double latitude, double longitude) {
-        Geocoder geocoder;
-        List<Address> address = new ArrayList<>();
-
-        geocoder = new Geocoder(this, Locale.getDefault());
-        try {
-            address = geocoder.getFromLocation(latitude, longitude, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String address1 = address.get(0).getAddressLine(0);
-        String address2 = address.get(0).getAddressLine(1);
-
-        return (address1 + " " + address2);
-    }
-
-    public boolean checkLocationPermission()
-    {
-        String permission = "android.permission.ACCESS_FINE_LOCATION";
-        return (this.checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-
-
-
-    /*
-    custom adapter
- */
-    private class CustomAdapter extends ArrayAdapter<Task> {
-
-        private ArrayList<Task> taskList;
-
-        CustomAdapter(Context context, int textViewResourceId, List<Task> taskList) {
-            super(context, textViewResourceId, taskList);
-            this.taskList = new ArrayList<Task>();
-            this.taskList.addAll(taskList);
-        }
-
-        private class ViewHolder {
-            TextView time;
-            TextView location;
-            CheckBox name;
-
-        }
-
-        @Override
-        @NonNull
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder;
-
-            if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.task_info, null);
-
-                holder = new ViewHolder();
-                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
-                convertView.setTag(holder);
-
-                holder.name.setOnClickListener( new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
-                        Task task = (Task) cb.getTag();
-                        task.setSelected(cb.isChecked());
-                    }
-                });
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-            Task task = taskList.get(position);
-            holder.name.setText(task.getTitle());
-            holder.name.setChecked(task.isSelected());
-            holder.name.setTag(task);
-
-            return convertView;
-
-        }
-    }
 
 
 }

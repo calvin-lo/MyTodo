@@ -68,6 +68,27 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Task getSingelData(long id) {
+        Task task = new Task();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_TASKS + " WHERE " + KEY_ID + "='" + id + "'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+
+        while(!cursor.isAfterLast()){
+
+            task.setId(cursor.getLong(cursor.getColumnIndex(KEY_ID)));
+            task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+            task.setTimestamp(cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMPS)));
+            task.setLatitude(cursor.getFloat(cursor.getColumnIndex(KEY_LATITUDE)));
+            task.setLongitude(cursor.getFloat(cursor.getColumnIndex(KEY_LONGITUDE)));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return task;
+    }
+
     // Getting All Data
     public List<Task> getAllData() {
         List<Task> taskList = new ArrayList<Task>();

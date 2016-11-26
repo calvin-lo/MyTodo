@@ -1,6 +1,12 @@
 package com.uoit.calvin.finalproject;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -18,11 +24,18 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class SecondFragment extends Fragment{
+
+public class SecondFragment extends Fragment implements LocationListener{
 
     MapView mMapView;
     private GoogleMap googleMap;
+    LocationManager locationManager;
+    Location myLocation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +45,9 @@ public class SecondFragment extends Fragment{
         mMapView.onCreate(savedInstanceState);
 
         mMapView.onResume();
+
+        updateLocation();
+
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -50,12 +66,17 @@ public class SecondFragment extends Fragment{
                 }
 
                 // For dropping a marker at a point on the Map
-                //LatLng sydney = new LatLng(-34, 151);
-                //googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
 
-                // For zooming automatically to the location of the marker
-                //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                DBHelper dbHelper = new DBHelper(getContext());
+                List<Task> taskList = dbHelper.getAllData();
+
+                for (Task t : taskList) {
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(t.getLatitude(), t.getLongitude()))
+                            .title(t.getTitle()));
+
+                }
+
             }
         });
 
@@ -65,7 +86,9 @@ public class SecondFragment extends Fragment{
     public boolean checkLocationPermission()
     {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
-        return (getActivity().checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+        String permission2 = "android.permission.ACCESS_COARSE_LOCATION";
+        return (getActivity().checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED &&
+            getActivity().checkCallingOrSelfPermission(permission2) == PackageManager.PERMISSION_GRANTED);
     }
 
     @Override
@@ -90,6 +113,40 @@ public class SecondFragment extends Fragment{
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+
+    public void updateLocation() {
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (checkLocationPermission()) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            //myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+    }
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng(location.getLatitude(), location.getLongitude()), 16));
+
+        myLocation = location;
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 
 
