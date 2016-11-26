@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -27,6 +28,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -137,12 +140,14 @@ public class PrimaryFragment extends Fragment implements LocationListener{
         }
 
         // Set the task
+        Collections.reverse(task);
         dataAdapter = new CustomAdapter(getContext(), R.layout.activity_listview, task);
         tasksListView = (ListView) v.findViewById(R.id.taskList);
         tasksListView.setAdapter(dataAdapter);
         registerForContextMenu(tasksListView);
 
         // Set the ID
+        Collections.reverse(taskIds);
         ArrayAdapter arrayAdapterID = new ArrayAdapter<>(getContext(), R.layout.activity_listview, taskIds);
         idListView= (ListView) v.findViewById(R.id.taskListID);
         idListView.setAdapter(arrayAdapterID);
@@ -234,6 +239,11 @@ public class PrimaryFragment extends Fragment implements LocationListener{
                         CheckBox cb = (CheckBox) v ;
                         Task task = (Task) cb.getTag();
                         task.setSelected(cb.isChecked());
+                        if (cb.isChecked()) {
+                            cb.setPaintFlags(cb.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                        } else {
+                            cb.setPaintFlags(cb.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                        }
                     }
                 });
             }
@@ -245,6 +255,7 @@ public class PrimaryFragment extends Fragment implements LocationListener{
             holder.name.setText(task.getTitle());
             holder.name.setChecked(task.isSelected());
             holder.name.setTag(task);
+
 
             return convertView;
 

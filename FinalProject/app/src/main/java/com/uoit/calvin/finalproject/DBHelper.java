@@ -20,6 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_TIMESTAMPS = "timestamps";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
+    private static final String KEY_SELECTED = "selected";
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_TASKS + " (" +
@@ -27,7 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_TITLE + " TEXT," +
                     KEY_TIMESTAMPS+ " TEXT," +
                     KEY_LATITUDE + " REAL," +
-                    KEY_LONGITUDE + " REAL" + " )";
+                    KEY_LONGITUDE + " REAL," +
+                    KEY_SELECTED + " INTEGER" + " )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_TASKS;
@@ -55,6 +57,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_TIMESTAMPS, task.getTimestamp());
         values.put(KEY_LATITUDE, task.getLatitude());
         values.put(KEY_LONGITUDE, task.getLongitude());
+        values.put(KEY_SELECTED, task.isSelected());
 
         // Inserting Row
         db.insert(TABLE_TASKS, null, values);
@@ -76,12 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-
-            task.setId(cursor.getLong(cursor.getColumnIndex(KEY_ID)));
-            task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
-            task.setTimestamp(cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMPS)));
-            task.setLatitude(cursor.getFloat(cursor.getColumnIndex(KEY_LATITUDE)));
-            task.setLongitude(cursor.getFloat(cursor.getColumnIndex(KEY_LONGITUDE)));
+                task = setTask(cursor);
             cursor.moveToNext();
         }
         cursor.close();
@@ -99,18 +97,28 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-            Task task = new Task();
-            task.setId(cursor.getLong(cursor.getColumnIndex(KEY_ID)));
-            task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
-            task.setTimestamp(cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMPS)));
-            task.setLatitude(cursor.getDouble(cursor.getColumnIndex(KEY_LATITUDE)));
-            task.setLongitude(cursor.getDouble(cursor.getColumnIndex(KEY_LONGITUDE)));
+            Task task = setTask(cursor);
             taskList.add(task);
             cursor.moveToNext();
         }
 
         cursor.close();
         return taskList;
+    }
+
+    private Task setTask(Cursor cursor) {
+
+        Task task = new Task();
+
+        task.setId(cursor.getLong(cursor.getColumnIndex(KEY_ID)));
+        task.setTitle(cursor.getString(cursor.getColumnIndex(KEY_TITLE)));
+        task.setTimestamp(cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMPS)));
+        task.setLatitude(cursor.getFloat(cursor.getColumnIndex(KEY_LATITUDE)));
+        task.setLongitude(cursor.getFloat(cursor.getColumnIndex(KEY_LONGITUDE)));
+        task.setSelected(cursor.getInt(cursor.getColumnIndex(KEY_SELECTED)) == 1);
+
+        return task;
+
     }
 
 }
