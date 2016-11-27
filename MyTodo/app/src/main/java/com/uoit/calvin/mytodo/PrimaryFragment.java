@@ -78,8 +78,13 @@ public class PrimaryFragment extends Fragment implements LocationListener {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         if (v.getId() == R.id.taskList) {
-            String[] menuItems = getResources().getStringArray(R.array.update_menu);
-            for (int i = 0; i<menuItems.length; i++) {
+            String[] menuItems;
+            if (((MainActivity)getActivity()).getMode().equals("SHOW HIDDEN")) {
+                 menuItems = getResources().getStringArray(R.array.update_hidden_menu);
+            } else {
+                menuItems = getResources().getStringArray(R.array.update_menu);
+            }
+            for (int i = 0; i< menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
         }
@@ -90,7 +95,12 @@ public class PrimaryFragment extends Fragment implements LocationListener {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
         int menuItemIndex = item.getItemId();
-        String[] menuItems = getResources().getStringArray(R.array.update_menu);
+        String[] menuItems;
+        if (((MainActivity)getActivity()).getMode().equals("SHOW HIDDEN")) {
+            menuItems = getResources().getStringArray(R.array.update_hidden_menu);
+        } else {
+            menuItems = getResources().getStringArray(R.array.update_menu);
+        }
         String menuItemName = menuItems[menuItemIndex];
         ListView l = (ListView)v.findViewById(R.id.taskListID);
         String ID = l.getItemAtPosition(info.position).toString();
@@ -106,6 +116,11 @@ public class PrimaryFragment extends Fragment implements LocationListener {
             dbHelper = new DBHelper(getContext());
             dbHelper.updateShow(Long.parseLong(ID), true);
             dbHelper.close();
+        } else if (menuItemName.equals("Unhide")) {
+            dbHelper = new DBHelper(getContext());
+            dbHelper.updateShow(Long.parseLong(ID), false);
+            dbHelper.close();
+            Log.i("HIIIIIII", "HERE");
         }
         displayTaskList();
 
@@ -124,6 +139,7 @@ public class PrimaryFragment extends Fragment implements LocationListener {
             task.setHidden(false);
             task.setCompleted(false);
             task.setSelected(false);
+            task.setDueTimestamp(data.getExtras().getString("dueTimestamp"));
             if (location != null) {
                 task.setLatitude(location.getLatitude());
                 task.setLongitude(location.getLongitude());

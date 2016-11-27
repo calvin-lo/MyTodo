@@ -50,11 +50,9 @@ public class CustomAdapter extends ArrayAdapter<Task> {
                     Task task = (Task) cb.getTag();
                     task.setSelected(cb.isChecked());
                     if (cb.isChecked()) {
-                        cb.setPaintFlags(cb.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                         dbHelper.updateSelected(task.getId(), true);
                         dbHelper.updateCompleted(task.getId(), true);
                     } else {
-                        cb.setPaintFlags(cb.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                         dbHelper.updateSelected(task.getId(), false);
                         dbHelper.updateCompleted(task.getId(), false);
                     }

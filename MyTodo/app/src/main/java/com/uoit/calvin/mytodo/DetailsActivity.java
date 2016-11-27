@@ -25,6 +25,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView weatherTemperature = (TextView) findViewById(R.id.txtTemperature);
         TextView timeView = (TextView) findViewById(R.id.textViewTime);
         TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
+        TextView dueView = (TextView) findViewById(R.id.textViewDueTimestamp);
 
         nameView.setText(task.getTitle());
 
@@ -43,6 +44,8 @@ public class DetailsActivity extends AppCompatActivity {
 
 
         selectedView.setText(task.getSelected());
+
+        dueView.setText(task.getDueTimestamp());
 
     }
 

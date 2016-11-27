@@ -11,6 +11,7 @@ public class Task {
     private Weather weather;
     private boolean hidden;
     private boolean completed;
+    private String dueTimestamp;
 
     public void setId(long id) {
         this.id = id;
@@ -43,10 +44,6 @@ public class Task {
             return "Not Done.";
         }
     }
-
-
-
-
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
@@ -100,5 +97,13 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public String getDueTimestamp() {
+        return dueTimestamp;
+    }
+
+    public void setDueTimestamp(String dueTimestamp) {
+        this.dueTimestamp = dueTimestamp;
     }
 }

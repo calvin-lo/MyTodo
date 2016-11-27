@@ -40,6 +40,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewSelected" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewDueTimestamp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,22 +54,19 @@
             android:id="@+id/txtCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/txtTemperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/txtDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_gravity="center" />
 
     </LinearLayout>
 

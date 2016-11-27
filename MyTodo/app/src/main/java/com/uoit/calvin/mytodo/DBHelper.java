@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_WEATHER_TEMPERATURE = "weatherTemperature";
     private static final String KEY_HIDDEN = "hidden";
     private static final String KEY_COMPLETED = "completed";
+    private static final String KEY_DUE_TIMESTAMP = "dueTimestamp";
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TABLE_TASKS + " (" +
@@ -39,7 +40,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     KEY_WEATHER_DETAILS + " TEXT," +
                     KEY_WEATHER_TEMPERATURE + " TEXT," +
                     KEY_HIDDEN + " REAL," +
-                    KEY_COMPLETED + " REAL" +" )";
+                    KEY_COMPLETED + " REAL," +
+                    KEY_DUE_TIMESTAMP + " TEXT" +" )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TABLE_TASKS;
@@ -73,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_WEATHER_TEMPERATURE, task.getWeather().getTemperature());
         values.put(KEY_HIDDEN, task.isHidden());
         values.put(KEY_COMPLETED, task.isCompleted());
+        values.put(KEY_DUE_TIMESTAMP, task.getDueTimestamp());
         // Inserting Row
         db.insert(TABLE_TASKS, null, values);
         db.close();
@@ -244,6 +247,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         task.setHidden(cursor.getInt(cursor.getColumnIndex(KEY_HIDDEN)) == 1);
         task.setCompleted(cursor.getInt(cursor.getColumnIndex(KEY_COMPLETED)) == 1);
+
+        task.setDueTimestamp(cursor.getString(cursor.getColumnIndex(KEY_DUE_TIMESTAMP)));
         return task;
 
     }
