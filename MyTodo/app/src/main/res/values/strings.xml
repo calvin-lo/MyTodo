@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MyTodo</string>
+    <string name="visual">Visual</string>
+    <string name="taskInstruction">Add a new task</string>
+    <string name="task">Tasks</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="fragOne">List</string>
+    <string name="fragTwo">Map</string>
+    <string name="label">Current Address: </string>
+</resources>

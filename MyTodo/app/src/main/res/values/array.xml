@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="update_menu">
+        <item>Details</item>
+        <item>Delete</item>
+        <item>Hide</item>
+    </string-array>
+
+    <string-array name="drawer_menu">
+        <item>All</item>
+        <item>Complete</item>
+        <item>Incomplete</item>
+        <item>Show Hidden</item>
+    </string-array>
+
+
+</resources>
