@@ -65,9 +65,11 @@ public class SecondFragment extends Fragment implements LocationListener {
                 List<Task> task = new Helper().getTask(((MainActivity)getActivity()).getMode(), getContext());
 
                 for (Task t : task) {
-                    googleMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(t.getLatitude(), t.getLongitude()))
-                            .title(t.getTitle()));
+                    if (t.getLatitude() != 0.0 && t.getLongitude() != 0.0) {
+                        googleMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(t.getLatitude(), t.getLongitude()))
+                                .title(t.getTitle()));
+                    }
 
                 }
 

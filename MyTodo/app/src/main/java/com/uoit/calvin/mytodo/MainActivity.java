@@ -2,6 +2,7 @@ package com.uoit.calvin.mytodo;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +13,12 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -30,21 +35,20 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPagerAdapter adapter;
 
-    DBHelper dbHelper;
-
     String mode;
 
-    List<String> taskList;
-    List<Long> taskIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        deleteDatabase("tasksDB");
-
         mode = "ALL";
+
+        // Set up the action bar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -185,6 +189,31 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+    }
+
+
+        /*
+        Setting Menu
+     */
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.setting:
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
+                adapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

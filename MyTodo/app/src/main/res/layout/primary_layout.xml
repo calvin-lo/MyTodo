@@ -20,22 +20,12 @@
         android:visibility="gone"
         android:layout_marginTop="104dp" />
 
-    <TextView
-        android:text="@string/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewAddressLabel"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_alignParentBottom="true"/>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:srcCompat="@drawable/ic_edit_black_24dp"
         app:backgroundTint="@android:color/background_light"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="12dp"

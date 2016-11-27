@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyTodo</string>
+    <string name="app_name">MyNotes</string>
     <string name="visual">Visual</string>
     <string name="taskInstruction">Add a new task</string>
     <string name="task">Tasks</string>
@@ -9,4 +9,5 @@
     <string name="label">Current Address: </string>
     <string name="pick_date">Pick Date</string>
     <string name="pick_time">Pick Time</string>
+    <string name="setting">Setting</string>
 </resources>

@@ -18,7 +18,8 @@ public class DetailsActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         Task task = dbHelper.getSingleData(ID);
 
-        TextView nameView = (TextView) findViewById(R.id.textViewName);
+        TextView titleView = (TextView) findViewById(R.id.textViewTitle);
+        TextView detailsView = (TextView) findViewById(R.id.textViewDetails);
         TextView addressView = (TextView) findViewById(R.id.textViewAddress);
         TextView weatherCity = (TextView) findViewById(R.id.txtCity);
         TextView weatherDetails = (TextView) findViewById(R.id.txtDetails);
@@ -27,16 +28,15 @@ public class DetailsActivity extends AppCompatActivity {
         TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
         TextView dueView = (TextView) findViewById(R.id.textViewDueTimestamp);
 
-        nameView.setText(task.getTitle());
+        titleView.setText(task.getTitle());
+        detailsView.setText(task.getDetails());
 
-       // addressView.setText(task.getLatitude() + " ; " + task.getLongitude());
 
         if (task.getLatitude() != 0.0 && task.getLongitude() != 0.0) {
-
             addressView.setText(new Helper().getAddress(this, task.getLatitude(), task.getLongitude()));
         }
 
-        weatherCity.setText("City: " + task.getWeather().getCity());
+        weatherCity.setText(task.getWeather().getCity());
         weatherDetails.setText(task.getWeather().getDetails());
         weatherTemperature.setText(task.getWeather().getTemperature());
 
@@ -45,8 +45,12 @@ public class DetailsActivity extends AppCompatActivity {
 
         selectedView.setText(task.getSelected());
 
-        dueView.setText(task.getDueTimestamp());
-
+        if (task.getDueTimestamp().length() == 0) {
+            String text = "No End Time";
+            dueView.setText(text);
+        } else {
+            dueView.setText(task.getDueTimestamp());
+        }
     }
 
 

@@ -6,6 +6,7 @@ import android.location.Geocoder;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +19,22 @@ class Helper {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.CANADA);
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    Date convertDate(String dateStr) {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
+        Date date = null;
+        if (dateStr.length() > 0) {
+            try {
+                date = df.parse(dateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        return date;
+
     }
 
     public String getAddress(Context context, double latitude, double longitude) {

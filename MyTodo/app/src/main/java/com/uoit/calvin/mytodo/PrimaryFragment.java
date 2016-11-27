@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -108,6 +109,7 @@ public class PrimaryFragment extends Fragment implements LocationListener {
             dbHelper = new DBHelper(getContext());
             dbHelper.deleteTransactions((Long.parseLong(ID)));
             dbHelper.close();
+            ((MainActivity)getActivity()).adapter.notifyDataSetChanged();
         } else if (menuItemName.equals("Details")) {
             Intent intent = new Intent(getContext(), DetailsActivity.class);
             intent.putExtra("ID", ID);
@@ -120,7 +122,6 @@ public class PrimaryFragment extends Fragment implements LocationListener {
             dbHelper = new DBHelper(getContext());
             dbHelper.updateShow(Long.parseLong(ID), false);
             dbHelper.close();
-            Log.i("HIIIIIII", "HERE");
         }
         displayTaskList();
 
@@ -134,11 +135,12 @@ public class PrimaryFragment extends Fragment implements LocationListener {
         dbHelper = new DBHelper(getContext());
         if(requestCode == SAVING_DATA && resultCode == getActivity().RESULT_OK) {
             updateLocation();
-            task.setTitle(data.getExtras().getString("result"));
+            task.setTitle(data.getExtras().getString("title"));
             task.setTimestamp(new Helper().getCurrentTime());
             task.setHidden(false);
             task.setCompleted(false);
             task.setSelected(false);
+            task.setDetails(data.getExtras().getString("details"));
             task.setDueTimestamp(data.getExtras().getString("dueTimestamp"));
             if (location != null) {
                 task.setLatitude(location.getLatitude());
@@ -160,6 +162,9 @@ public class PrimaryFragment extends Fragment implements LocationListener {
         dbHelper = new DBHelper(getContext());
 
         List<Task> task = new Helper().getTask(((MainActivity)getActivity()).getMode(), getContext());
+
+        Collections.sort(task);
+
         taskList = new ArrayList<>();
         taskIds = new ArrayList<>();
         for (Task t : task) {
@@ -170,14 +175,12 @@ public class PrimaryFragment extends Fragment implements LocationListener {
         }
 
         // Set the task
-        Collections.reverse(task);
         dataAdapter = new CustomAdapter(getContext(), R.layout.activity_listview, task);
         tasksListView = (ListView) v.findViewById(R.id.taskList);
         tasksListView.setAdapter(dataAdapter);
         registerForContextMenu(tasksListView);
 
         // Set the ID
-        Collections.reverse(taskIds);
         ArrayAdapter arrayAdapterID = new ArrayAdapter<>(getContext(), R.layout.activity_listview, taskIds);
         idListView= (ListView) v.findViewById(R.id.taskListID);
         idListView.setAdapter(arrayAdapterID);
@@ -245,11 +248,6 @@ public class PrimaryFragment extends Fragment implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         this.location = location;
-        TextView textView = (TextView) v.findViewById(R.id.textViewAddressLabel);
-/*        if (location.getLatitude() != 0 && location.getLongitude() != 0) {
-            String label = "Current Address:" + new Helper().getAddress(getContext(), location.getLatitude(), location.getLongitude());
-            textView.setText(label);
-        }*/
     }
 
     @Override

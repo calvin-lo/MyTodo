@@ -1,6 +1,7 @@
 package com.uoit.calvin.mytodo;
+import java.util.Date;
 
-public class Task {
+public class Task implements Comparable<Task> {
 
     private long id;
     private String title;
@@ -12,6 +13,8 @@ public class Task {
     private boolean hidden;
     private boolean completed;
     private String dueTimestamp;
+    private Date endDate;
+    private String details;
 
     public void setId(long id) {
         this.id = id;
@@ -105,5 +108,29 @@ public class Task {
 
     public void setDueTimestamp(String dueTimestamp) {
         this.dueTimestamp = dueTimestamp;
+        if (dueTimestamp.length() > 0) {
+            this.endDate = new Helper().convertDate(dueTimestamp);
+        } else {
+            this.endDate = null;
+        }
+    }
+
+    private Date getEndDate() {
+        return this.endDate;
+    }
+
+    @Override
+    public int compareTo(Task t) {
+        if (getEndDate() == null || t.getEndDate() == null)
+            return 0;
+        return getEndDate().compareTo(t.getEndDate());
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 }

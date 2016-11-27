@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -25,22 +27,33 @@ public class AddActivity extends AppCompatActivity implements TimePickerDialog.O
     private String time;
     private String date;
     private String dueTimestamp;
-    EditText input;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        input =  (EditText) findViewById(R.id.dataInput);
         time = "";
         date = "";
+        dueTimestamp = "";
+
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolBar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
+
     }
 
     public void clickSave(View v) {
         Intent returnIntent = new Intent();
-        EditText input = (EditText) findViewById(R.id.dataInput);
-        String result = input.getText().toString();
-        returnIntent.putExtra("result",result);
+        EditText titleInput = (EditText) findViewById(R.id.titleInput);
+        EditText detailsInput = (EditText) findViewById(R.id.detailsInput);
+        String title = titleInput.getText().toString();
+        String details = detailsInput.getText().toString();
+        returnIntent.putExtra("title", title);
+        returnIntent.putExtra("details", details);
         returnIntent.putExtra("dueTimestamp", dueTimestamp);
         setResult(RESULT_OK,returnIntent);
         finish();
