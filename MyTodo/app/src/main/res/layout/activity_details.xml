@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+    <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,60 +21,112 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewTitle" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewDetails" />
+        android:layout_height="10dp"
+        android:background="@color/list4" />
 
     <TextView
+        style = "@style/CodeFont"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewAddress" />
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:id="@+id/textViewDetails"
+        android:textSize="20sp"
+        android:background="@color/list4"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_subject_white_24dp"
+        android:maxLines="5"
+        android:scrollbars="vertical"
+        android:layout_marginBottom="10dp"
+        />
 
     <TextView
+        style = "@style/CodeFont"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewTime" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/textViewAddress"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_location_on_white_24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:scrollbars="vertical"
+
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/list4"/>
 
     <TextView
+        style = "@style/CodeFont"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewSelected" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/textViewTime"
+        android:textSize="20sp"
+        android:drawableTop="@drawable/rightarrow24"
+        android:gravity="center"
+        android:background="@color/list4"
+        android:layout_marginBottom="10dp"
+        />
 
     <TextView
+        style = "@style/CodeFont"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/textViewDueTimestamp"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:drawableTop="@drawable/timeleft24"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/list4"/>
+
+
+    <TextView
+        style = "@style/CodeFont"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/textViewSelected"
+        android:textSize="20sp"
+        android:background="@color/list4"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_check_white_12dp"
+        android:layout_marginBottom="10dp"
+
+        />
+
+    <TextView
+        style = "@style/CodeFont"
+        android:id="@+id/textViewWeather"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:drawableTop="@drawable/cloud"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <Button
+        android:text="@string/doneLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewDueTimestamp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txtCity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/txtTemperature"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:id="@+id/txtDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-    </LinearLayout>
-
-
+        android:id="@+id/buttonDone"
+        android:background="@color/orange"
+        android:onClick="clickDone" />
 </LinearLayout>

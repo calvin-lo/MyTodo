@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class CustomAdapter extends ArrayAdapter<Task> {
     private class ViewHolder {
         CheckBox name;
         TextView date;
+        TextView current;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class CustomAdapter extends ArrayAdapter<Task> {
             holder = new CustomAdapter.ViewHolder();
             holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
             holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.current = (TextView) convertView.findViewById(R.id.currentDate);
             convertView.setTag(holder);
             dbHelper = new DBHelper(getContext());
             holder.name.setOnClickListener( new View.OnClickListener() {
@@ -76,6 +80,7 @@ public class CustomAdapter extends ArrayAdapter<Task> {
             holder.date.setText(task.getDueTimestamp());
         }
 
+        holder.current.setText(task.getTimestamp());
         holder.name.setChecked(task.isSelected());
         holder.name.setTag(task);
 

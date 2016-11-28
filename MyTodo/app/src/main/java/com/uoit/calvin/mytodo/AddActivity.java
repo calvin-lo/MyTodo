@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -27,6 +28,7 @@ public class AddActivity extends AppCompatActivity implements TimePickerDialog.O
     private String time;
     private String date;
     private String dueTimestamp;
+    MediaPlayer clickSoundMP;
 
 
     @Override
@@ -44,9 +46,12 @@ public class AddActivity extends AppCompatActivity implements TimePickerDialog.O
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
+        clickSoundMP = MediaPlayer.create(this, R.raw.mouse_click);
+
     }
 
     public void clickSave(View v) {
+        clickSoundMP.start();
         Intent returnIntent = new Intent();
         EditText titleInput = (EditText) findViewById(R.id.titleInput);
         EditText detailsInput = (EditText) findViewById(R.id.detailsInput);
@@ -88,7 +93,7 @@ public class AddActivity extends AppCompatActivity implements TimePickerDialog.O
     public void updateTimestamp() {
         TextView timestampView = (TextView) findViewById(R.id.textViewAddTimestamp);
         dueTimestamp = date + " " + time;
-        String newText = "@ " + dueTimestamp;
+        String newText = dueTimestamp;
         timestampView.setText(newText);
     }
 

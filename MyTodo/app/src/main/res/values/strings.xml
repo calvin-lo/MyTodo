@@ -10,4 +10,8 @@
     <string name="pick_date">Pick Date</string>
     <string name="pick_time">Pick Time</string>
     <string name="setting">Setting</string>
+    <string name = "titleHint">Title</string>
+    <string name = "detailsHint">Details</string>
+    <string name= "defaultEndTime">No End Time.</string>
+    <string name ="doneLabel">MARK AS DONE</string>
 </resources>

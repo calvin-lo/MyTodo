@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     String mode;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,10 +178,16 @@ public class MainActivity extends AppCompatActivity {
         ListView mDrawerList;
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mPlanetTitles = getResources().getStringArray(R.array.drawer_menu);
+        int[] drawableIds = {R.drawable.ic_grade_white_18dp,
+                                R.drawable.ic_check_white_12dp,
+                                R.drawable.ic_remove_circle_outline_white_18dp,
+                                R.drawable.ic_visibility_off_white_18dp};
+
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         if (mDrawerList != null) {
-            mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer, mPlanetTitles));
+            mDrawerList.setAdapter(new CustomAdapter2(this, mPlanetTitles, drawableIds));
+            //mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer, mPlanetTitles));
         }
 
 

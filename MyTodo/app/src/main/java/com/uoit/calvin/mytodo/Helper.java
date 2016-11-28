@@ -16,7 +16,7 @@ import java.util.Locale;
 class Helper {
 
     public String getCurrentTime() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.CANADA);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
         Date date = new Date();
         return dateFormat.format(date);
     }

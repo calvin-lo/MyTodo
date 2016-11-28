@@ -1,13 +1,18 @@
 package com.uoit.calvin.mytodo;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
+import android.view.View;
 import android.widget.TextView;
 
 public class DetailsActivity extends AppCompatActivity {
 
     long ID;
     DBHelper dbHelper;
+    Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,34 +21,57 @@ public class DetailsActivity extends AppCompatActivity {
 
         ID =  Long.parseLong(getIntent().getStringExtra("ID"));
         dbHelper = new DBHelper(this);
-        Task task = dbHelper.getSingleData(ID);
+        task = dbHelper.getSingleData(ID);
 
-        TextView titleView = (TextView) findViewById(R.id.textViewTitle);
-        TextView detailsView = (TextView) findViewById(R.id.textViewDetails);
-        TextView addressView = (TextView) findViewById(R.id.textViewAddress);
-        TextView weatherCity = (TextView) findViewById(R.id.txtCity);
-        TextView weatherDetails = (TextView) findViewById(R.id.txtDetails);
-        TextView weatherTemperature = (TextView) findViewById(R.id.txtTemperature);
-        TextView timeView = (TextView) findViewById(R.id.textViewTime);
-        TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
-        TextView dueView = (TextView) findViewById(R.id.textViewDueTimestamp);
-
-        titleView.setText(task.getTitle());
-        detailsView.setText(task.getDetails());
-
-
-        if (task.getLatitude() != 0.0 && task.getLongitude() != 0.0) {
-            addressView.setText(new Helper().getAddress(this, task.getLatitude(), task.getLongitude()));
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolBar != null) {
+            toolBar.setTitle(task.getTitle());
+        }
+        setSupportActionBar(toolBar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        weatherCity.setText(task.getWeather().getCity());
-        weatherDetails.setText(task.getWeather().getDetails());
-        weatherTemperature.setText(task.getWeather().getTemperature());
+        setDetails();
+        setAddress();
+        setTime();
+        setDue();
+        setStatus();
+        setWeather();
+    }
+
+    public void setDetails() {
+        TextView detailsView = (TextView) findViewById(R.id.textViewDetails);
+        detailsView.setText(task.getDetails());
+        detailsView.setMovementMethod(new ScrollingMovementMethod());
+
+    }
+
+    public void setAddress() {
+        TextView addressView = (TextView) findViewById(R.id.textViewAddress);
+
+        String address;
+        if (task.getLatitude() != 0.0 && task.getLongitude() != 0.0) {
+            address =  new Helper().getAddress(this, task.getLatitude(), task.getLongitude());
+        } else {
+            address = "No Location";
+        }
+        addressView.setText(address);
+        addressView.setMovementMethod(new ScrollingMovementMethod());
+
+
+    }
+
+    public void setTime() {
+        TextView timeView = (TextView) findViewById(R.id.textViewTime);
 
         timeView.setText(task.getTimestamp());
 
+    }
 
-        selectedView.setText(task.getSelected());
+    public void setDue() {
+        TextView dueView = (TextView) findViewById(R.id.textViewDueTimestamp);
 
         if (task.getDueTimestamp().length() == 0) {
             String text = "No End Time";
@@ -51,6 +79,37 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             dueView.setText(task.getDueTimestamp());
         }
+
+
+    }
+
+    public void setStatus() {
+        TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
+
+        String text;
+        if (task.isCompleted()) {
+            text = "COMPLETE";
+        } else {
+            text = "INCOMPLETE";
+        }
+
+        selectedView.setText(text);
+
+    }
+
+    public void setWeather() {
+        TextView weatherView = (TextView) findViewById(R.id.textViewWeather);
+        String weatherText = task.getWeather().getTemperature() + " | " + task.getWeather().getDetails();
+        weatherView.setText(weatherText);
+    }
+
+    public void clickDone(View v) {
+        DBHelper dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper.updateCompleted(ID, true);
+        dbHelper.updateSelected(ID, true);
+        TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
+        String text = "COMPLETE";
+        selectedView.setText(text);
     }
 
 

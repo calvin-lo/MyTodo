@@ -5,7 +5,18 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/titleBar</item>
         <item name="colorPrimaryDark">@color/notificationBar</item>
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorAccent">@color/selected</item>
+    </style>
+
+    <style name="CodeFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="SelectTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlNormal">@color/textColor</item>   <!-- normal border color change as you wish -->
+        <item name="colorControlActivated">@color/selected</item> <!-- activated color change as you wish -->
+        <item name="android:textColor">@color/textColor</item> <!-- checkbox text color -->
     </style>
 
 </resources>

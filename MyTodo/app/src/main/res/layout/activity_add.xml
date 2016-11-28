@@ -4,7 +4,8 @@
     android:id="@+id/activity_add"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background">
 
     <android.support.v7.widget.Toolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -23,39 +24,51 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:onClick="clickSave"
-        app:srcCompat="@drawable/ic_save_black_24dp"
+        app:srcCompat="@drawable/ic_save_white_24dp"
         android:id="@+id/floatingActionButton"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginEnd="11dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:ems="10"
+        android:hint="@string/titleHint"
+        android:textColorHint="@color/textColor"
+        android:textColor="@color/textColor"
         android:id="@+id/titleInput"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/toolbar" />
+        android:layout_below="@+id/toolbar"
+        android:theme="@style/SelectTheme"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
+        android:hint="@string/detailsHint"
+        android:textColorHint="@color/textColor"
+        android:textColor="@color/textColor"
         android:layout_marginTop="20dp"
         android:id="@+id/detailsInput"
         android:layout_gravity="center_vertical"
-        android:layout_below="@+id/titleInput" />
+        android:layout_below="@+id/titleInput"
+        android:theme="@style/SelectTheme"/>
 
     <TextView
+        style = "@style/CodeFont"
+        android:drawableStart="@drawable/timeleft24"
+        android:drawableLeft="@drawable/timeleft24"
+        android:text="@string/defaultEndTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewAddTimestamp"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:layout_below="@+id/detailsInput"
         android:textStyle="bold" />
@@ -67,12 +80,18 @@
         android:layout_below="@+id/textViewAddTimestamp"
         android:layout_marginTop="20dp">
 
+
+        <Space
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="200dp" />
+
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/pick_date"
             android:onClick="showDatePickerDialog"
-            app:srcCompat="@drawable/ic_date_range_black_24dp"
+            app:srcCompat="@drawable/ic_date_range_white_18dp"
             android:layout_weight="1"
             android:background="@android:color/transparent" />
 
@@ -81,7 +100,7 @@
             android:layout_height="wrap_content"
             android:text="@string/pick_time"
             android:onClick="showTimePickerDialog"
-            app:srcCompat="@drawable/ic_schedule_black_24dp"
+            app:srcCompat="@drawable/ic_schedule_white_18dp"
             android:layout_weight="1"
             android:background="@android:color/transparent" />
     </LinearLayout>

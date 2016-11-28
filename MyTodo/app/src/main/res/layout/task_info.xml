@@ -14,15 +14,32 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:theme="@style/SelectTheme"/>
 
     <TextView
+        style = "@style/CodeFont"
+        android:drawableStart="@drawable/rightarrow"
+        android:drawableLeft="@drawable/rightarrow"
+        android:id="@+id/currentDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:textSize="16sp"
+        />
+
+    <TextView
+        style = "@style/CodeFont"
+        android:drawableStart="@drawable/timeleft"
+        android:drawableLeft="@drawable/timeleft"
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-
-        android:textSize="15sp"/>
+        android:textSize="16sp" />
 </LinearLayout>

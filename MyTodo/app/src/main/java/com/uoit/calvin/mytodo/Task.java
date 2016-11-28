@@ -40,14 +40,6 @@ public class Task implements Comparable<Task> {
         return this.selected;
     }
 
-    public String getSelected() {
-        if (selected) {
-            return "Done.";
-        } else {
-            return "Not Done.";
-        }
-    }
-
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
@@ -121,8 +113,10 @@ public class Task implements Comparable<Task> {
 
     @Override
     public int compareTo(Task t) {
-        if (getEndDate() == null || t.getEndDate() == null)
+        if (getEndDate() == null || t.getEndDate() == null) {
+
             return 0;
+        }
         return getEndDate().compareTo(t.getEndDate());
     }
 
