@@ -1,7 +1,7 @@
 # CSCI4100U/SOFE4870U Final Project - MyTodo
 
 ### Contributors
-Calvin Lo (100514352)
+Calvin Lo (100514352) <br />
 Karan Chandwaney (100472699)
 
 ### App Details
@@ -21,7 +21,7 @@ When the app is opened for the first time, the user is prompted with a permissio
 ### API Reference
 Two APIs were used in the development of this app:
 
-Google Maps API - https://developers.google.com/maps/
+Google Maps API - https://developers.google.com/maps/ <br />
 OpenWeatherMap API - http://openweathermap.org/api
 
 ### Project Requirements Met
