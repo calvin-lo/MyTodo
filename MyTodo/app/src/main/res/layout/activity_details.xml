@@ -122,11 +122,15 @@
         android:layout_marginBottom="10dp"
         />
 
-    <Button
-        android:text="@string/doneLabel"
+    <Spinner
+        style="@style/CodeFont"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonDone"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/spinner"
         android:background="@color/orange"
-        android:onClick="clickDone" />
+        android:gravity="center"
+        android:popupBackground="@color/orange"
+        />
+
 </LinearLayout>

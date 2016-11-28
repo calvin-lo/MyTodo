@@ -23,5 +23,15 @@
         <item>"Reset Database"</item>
     </string-array>
 
+    <string-array name="button">
+        <item> </item>
+        <item>MARK AS COMPLETE</item>
+        <item>MARK AS INCOMPLETE</item>
+        <item>HIDE</item>
+        <item>UNHIDE</item>
+        <item>DELETE</item>
+    </string-array>
+
+
 
 </resources>

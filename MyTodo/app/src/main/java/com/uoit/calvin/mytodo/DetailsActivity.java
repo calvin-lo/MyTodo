@@ -5,10 +5,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
 
     long ID;
     DBHelper dbHelper;
@@ -39,7 +43,53 @@ public class DetailsActivity extends AppCompatActivity {
         setDue();
         setStatus();
         setWeather();
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.button, R.layout.custom_spinner);
+        adapter.setDropDownViewResource(R.layout.custom_dropdown);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        DBHelper dbHelper = new DBHelper(this.getApplicationContext());
+        TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
+        String text;
+        switch(pos) {
+            case 0:
+                break;
+            case 1:
+                dbHelper.updateCompleted(ID, true);
+                dbHelper.updateSelected(ID, true);;
+                text = "COMPLETE";
+                selectedView.setText(text);
+                break;
+            case 2:
+                dbHelper.updateCompleted(ID, false);
+                dbHelper.updateSelected(ID, false);
+                text = "INCOMPLETE";
+                selectedView.setText(text);
+                break;
+            case 3:
+                dbHelper.updateShow(ID, true);
+                break;
+            case 4:
+                dbHelper.updateShow(ID, false);
+                break;
+            case 5:
+                dbHelper.deleteTransactions(ID);
+                finish();
+                break;
+        }
+        dbHelper.close();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+    }
+
 
     public void setDetails() {
         TextView detailsView = (TextView) findViewById(R.id.textViewDetails);
@@ -103,14 +153,6 @@ public class DetailsActivity extends AppCompatActivity {
         weatherView.setText(weatherText);
     }
 
-    public void clickDone(View v) {
-        DBHelper dbHelper = new DBHelper(this.getApplicationContext());
-        dbHelper.updateCompleted(ID, true);
-        dbHelper.updateSelected(ID, true);
-        TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
-        String text = "COMPLETE";
-        selectedView.setText(text);
-    }
 
 
 }
