@@ -1,5 +1,7 @@
 package com.uoit.calvin.mytodo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -53,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity  implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        DBHelper dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper = new DBHelper(this.getApplicationContext());
         TextView selectedView = (TextView) findViewById(R.id.textViewSelected);
         String text;
         switch(pos) {
@@ -78,8 +80,15 @@ public class DetailsActivity extends AppCompatActivity  implements AdapterView.O
                 dbHelper.updateShow(ID, false);
                 break;
             case 5:
-                dbHelper.deleteTransactions(ID);
-                finish();
+                new AlertDialog.Builder(this)
+                        .setMessage("Do you really want to delete this item?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dbHelper.deleteTransactions(ID);
+                                finish();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
                 break;
         }
         dbHelper.close();

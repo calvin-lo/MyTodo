@@ -22,7 +22,7 @@ class Helper {
     }
 
     Date convertDate(String dateStr) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy", Locale.CANADA);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
         Date date = null;
         if (dateStr.length() > 0) {
             try {

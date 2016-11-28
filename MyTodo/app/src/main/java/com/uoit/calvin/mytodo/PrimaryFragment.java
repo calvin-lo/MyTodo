@@ -1,6 +1,8 @@
 package com.uoit.calvin.mytodo;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Paint;
@@ -104,12 +106,19 @@ public class PrimaryFragment extends Fragment implements LocationListener {
         }
         String menuItemName = menuItems[menuItemIndex];
         ListView l = (ListView)v.findViewById(R.id.taskListID);
-        String ID = l.getItemAtPosition(info.position).toString();
+        final String ID = l.getItemAtPosition(info.position).toString();
         if (menuItemName.equals("Delete")) {
             dbHelper = new DBHelper(getContext());
-            dbHelper.deleteTransactions((Long.parseLong(ID)));
-            dbHelper.close();
-            ((MainActivity)getActivity()).adapter.notifyDataSetChanged();
+            new AlertDialog.Builder(getContext())
+                    .setMessage("Do you really want to delete this item?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dbHelper.deleteTransactions(Long.parseLong(ID));
+                            dbHelper.close();
+                            ((MainActivity)getActivity()).adapter.notifyDataSetChanged();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
         } else if (menuItemName.equals("Details")) {
             Intent intent = new Intent(getContext(), DetailsActivity.class);
             intent.putExtra("ID", ID);

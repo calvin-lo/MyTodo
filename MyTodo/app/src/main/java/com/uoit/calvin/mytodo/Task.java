@@ -1,4 +1,6 @@
 package com.uoit.calvin.mytodo;
+import android.util.Log;
+
 import java.util.Date;
 
 public class Task implements Comparable<Task> {
@@ -102,6 +104,7 @@ public class Task implements Comparable<Task> {
         this.dueTimestamp = dueTimestamp;
         if (dueTimestamp.length() > 0) {
             this.endDate = new Helper().convertDate(dueTimestamp);
+            Log.i("MYDATE", endDate.toString());
         } else {
             this.endDate = null;
         }
@@ -114,7 +117,6 @@ public class Task implements Comparable<Task> {
     @Override
     public int compareTo(Task t) {
         if (getEndDate() == null || t.getEndDate() == null) {
-
             return 0;
         }
         return getEndDate().compareTo(t.getEndDate());
