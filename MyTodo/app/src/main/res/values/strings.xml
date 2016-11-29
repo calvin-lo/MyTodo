@@ -15,5 +15,5 @@
     <string name= "defaultEndTime">No End Time.</string>
     <string name ="doneLabel">MARK AS DONE</string>
     <string name ="welcomeTitle">Welcome</string>
-    <string name="description">• Long press an item to view details.\n• Swipe left to open side drawer.\n• Swipe right to map view.\n• Click the pen button to add a new task.</string>
+    <string name="description">• Long press an item to view details.\n• Swipe left to open side drawer.\n• Swipe right to map view.\n• Click the pen button to add a new task.\n\t• Click the schedule and clock to selected date and time.</string>
 </resources>

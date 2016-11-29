@@ -26,11 +26,16 @@ OpenWeatherMap API - http://openweathermap.org/api
 
 ### Project Requirements Met
 **Basic Requirements**
-* The app consists of multiple activities.
+* The app consists of multiple activities and used intent to switch between them.
 * The app incorporates media playback through the use of a click sound when a task is saved.
-* The app makes use of internet resources, by using the aforementioned APIs to display and interact with a map view and to get weather data.
-* Storage - The tasks are stored and displayed through the use of a database.
+* The app makes use of internet resources and async task, by using the aforementioned APIs to display and interact with a map view and to get weather data.
+* Storage - The tasks are stored and displayed through the use of a database and shared perferences.
+* The app used listview and custom array adapter for displaying task.
+
 
 **Other Features Implemented**
 * 2D graphical content through the use of ImageButtons and weather icons.
 * GPS and geocoding are used to get the location of the user.
+* Tab layout, view pager fragment and side drawer are used as user interface
+* Toast and AlertDialog are used for notification.
+* Spinner, Menu are used.

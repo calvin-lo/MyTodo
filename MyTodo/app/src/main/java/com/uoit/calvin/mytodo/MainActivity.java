@@ -59,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         String permission = "android.permission.ACCESS_FINE_LOCATION";
         String permission2 = "android.permission.ACCESS_COARSE_LOCATION";
-        if (this.checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+        if (this.checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        if (this.checkCallingOrSelfPermission(permission2) == PackageManager.PERMISSION_GRANTED) {
+        if (this.checkCallingOrSelfPermission(permission2) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
 

@@ -31,7 +31,7 @@ public class SettingActivity extends AppCompatActivity {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String[] settingList = getResources().getStringArray(R.array.setting_list);
-        int[] drawableIds = {R.drawable.ic_delete_forever_black_24dp, R.drawable.ic_keyboard_arrow_down_black_24dp};
+        int[] drawableIds = {R.drawable.ic_clear_all_white_18dp, R.drawable.ic_star_white_18dp};
 
         final Toast t1= Toast.makeText(this, "Deleted Database", Toast.LENGTH_SHORT);
         final Toast t2= Toast.makeText(this, "Hint will show next time you open the app", Toast.LENGTH_SHORT);
