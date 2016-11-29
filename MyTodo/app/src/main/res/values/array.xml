@@ -20,7 +20,8 @@
     </string-array>
 
     <string-array name="setting_list">
-        <item>"Reset Database"</item>
+        <item>Reset Database</item>
+        <item>Show Hints Next TIme</item>
     </string-array>
 
     <string-array name="button">

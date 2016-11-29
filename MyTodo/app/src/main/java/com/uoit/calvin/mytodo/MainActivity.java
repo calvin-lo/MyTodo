@@ -1,10 +1,15 @@
 package com.uoit.calvin.mytodo;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     String mode;
 
+    SharedPreferences mPrefs;
+    final String welcomeScreenShownPref = "welcomeScreenShown";
 
 
     @Override
@@ -50,9 +57,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        String permission2 = "android.permission.ACCESS_COARSE_LOCATION";
+        if (this.checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        if (this.checkCallingOrSelfPermission(permission2) == PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
 
         final ListView mDrawerList;
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -83,8 +95,34 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+
+
         setupTabLayout();
         updateDrawer();
+
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean welcomeScreenShown = mPrefs.getBoolean(welcomeScreenShownPref, false);
+        if (!welcomeScreenShown) {
+            String welcome = getResources().getString(R.string.welcomeTitle);
+            String description = getResources().getString(R.string.description);
+            new AlertDialog.Builder(this)
+                    .setTitle(welcome)
+                    .setMessage(description)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Don't show this again", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences.Editor editor = mPrefs.edit();
+                            editor.putBoolean(welcomeScreenShownPref, true);
+                            editor.apply();
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
     }
 
     @Override

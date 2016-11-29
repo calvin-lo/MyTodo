@@ -242,16 +242,21 @@ public class PrimaryFragment extends Fragment implements LocationListener {
     public void updateLocation() {
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         if (checkLocationPermission()) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            //location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER)) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            }
+            if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            }
         }
     }
 
     public boolean checkLocationPermission()
     {
         String permission = "android.permission.ACCESS_FINE_LOCATION";
-        return (getActivity().checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+        String permission2 = "android.permission.ACCESS_COARSE_LOCATION";
+        return (getActivity().checkCallingOrSelfPermission(permission) == PackageManager.PERMISSION_GRANTED &&
+            getActivity().checkCallingOrSelfPermission(permission2) == PackageManager.PERMISSION_GRANTED);
     }
 
     @Override

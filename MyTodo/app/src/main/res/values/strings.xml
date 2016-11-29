@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyNotes</string>
+    <string name="app_name">MyTodo</string>
     <string name="visual">Visual</string>
     <string name="taskInstruction">Add a new task</string>
     <string name="task">Tasks</string>
@@ -9,9 +9,11 @@
     <string name="label">Current Address: </string>
     <string name="pick_date">Pick Date</string>
     <string name="pick_time">Pick Time</string>
-    <string name="setting">Setting</string>
+    <string name="setting">Settings</string>
     <string name = "titleHint">Title</string>
     <string name = "detailsHint">Details</string>
     <string name= "defaultEndTime">No End Time.</string>
     <string name ="doneLabel">MARK AS DONE</string>
+    <string name ="welcomeTitle">Welcome</string>
+    <string name="description">• Long press an item to view details.\n• Swipe left to open side drawer.\n• Swipe right to map view.\n• Click the pen button to add a new task.</string>
 </resources>

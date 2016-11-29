@@ -16,7 +16,7 @@ When the app is opened for the first time, the user is prompted with a permissio
 
 **Tasks can be viewed on a map** by Swiping to the "MAP" tab, which brings up a map view and displays where various tasks were added. When tasks are added, a red marker is displayed on the map at the location the task was added. Tapping on the red marker shows what task was added.
 
-**The details of the task** are displayed when the user taps on Details (after tapping and holding on the task). This includes the location the task was added, the time and duration of the task, whether or not the task is complete, and the weather details of the location of the task. Tapping the yellow button at the bottom also gives the user options to edit the task (mark as complete, incomplete, etc.).
+**The details of the task** are displayed when the user taps on Details (after tapping and holding on the task). This includes the location the task was added, the created time and due time of the task, whether or not the task is complete, and the weather details of the location of the task. Tapping the yellow button at the bottom also gives the user options to edit the task (mark as complete, incomplete, etc.).
 
 ### API Reference
 Two APIs were used in the development of this app:
